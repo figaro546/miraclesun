@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The IAM Project</title>
+  <meta name="description" content="Identity, access, and agent-ready infrastructure.">
+</head>
+<body>
+  <header>
+    <h1>The IAM Project</h1>
+    <p>Identity, access, and agent-ready infrastructure.</p>
+  </header>
+  <main>
+    <section id="about">
+      <h2>About</h2>
+      <p>The IAM Project is dedicated to building identity, access management, and agent-ready infrastructure for the modern web.</p>
+    </section>
+    <section id="agent-resources">
+      <h2>Agent Resources</h2>
+      <ul>
+        <li><a href="/robots.txt">robots.txt</a></li>
+        <li><a href="/sitemap.xml">sitemap.xml</a></li>
+        <li><a href="/.well-known/api-catalog">API Catalog</a></li>
+        <li><a href="/.well-known/oauth-authorization-server">OAuth Server Metadata</a></li>
+        <li><a href="/.well-known/oauth-protected-resource">Protected Resource Metadata</a></li>
+        <li><a href="/.well-known/openid-configuration">OpenID Connect Discovery</a></li>
+        <li><a href="/.well-known/mcp/server-card.json">MCP Server Card</a></li>
+        <li><a href="/.well-known/agent-skills/index.json">Agent Skills Index</a></li>
+        <li><a href="/auth.md">auth.md</a></li>
+      </ul>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <form id="contact-form">
+        <input type="text" name="firstName" placeholder="First Name" required><br><br>
+        <input type="text" name="lastName" placeholder="Last Name" required><br><br>
+        <input type="email" name="email" placeholder="Email" required><br><br>
+        <input type="tel" name="phone" placeholder="Phone (optional)"><br><br>
+        <textarea name="message" placeholder="Your message" rows="4"></textarea><br><br>
+        <button type="submit">Submit</button>
+      </form>
+      <div id="form-response"></div>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2026 The IAM Project. <a href="https://miraclesun.icu">← Back to Miracle Sun</a></p>
+  </footer>
+  <script>
+    fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'page_view', path: window.location.pathname, referrer: document.referrer }) }).catch(() => {});
+    document.addEventListener('click', (e) => { const link = e.target.closest('a'); if (link && link.href) { fetch('/api/track', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ type: 'click', path: link.href, metadata: { text: link.textContent } }) }).catch(() => {}); } });
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const data = Object.fromEntries(new FormData(form));
+      const r = document.getElementById('form-response');
+      r.innerHTML = '<p>Sending...</p>';
+      try {
+        const res = await fetch('/api/submit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        const result = await res.json();
+        if (result.success) { r.innerHTML = '<p style="color:green">✓ Thank you!</p>'; form.reset(); }
+        else { r.innerHTML = '<p style="color:red">Something went wrong.</p>'; }
+      } catch (err) { r.innerHTML = '<p style="color:red">Something went wrong.</p>'; }
+    });
+  </script>
+</body>
+</html>
