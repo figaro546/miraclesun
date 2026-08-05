@@ -3,10 +3,10 @@ import { handleAgentReady, AGENT_LINK_HEADERS } from "./agent-ready.js";
 const SITES = {
   "miraclesun.icu": "miraclesun",
   "www.miraclesun.icu": "miraclesun",
+  "theiamproject.miraclesun.icu": "theiamproject",
   "theiamproject.net": "theiamproject",
-  "www.theiamproject.net": "theiamproject"
+  "www.theiamproject.net": "theiamproject",
 };
-
 const CRM_BASE = "https://services.leadconnectorhq.com";
 const CRM_LOCATION_ID = "xIMotGFTTevHkqMW7hCP";
 
