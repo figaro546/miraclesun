@@ -1,8 +1,8 @@
 import { handleAgentReady, AGENT_LINK_HEADERS } from "./agent-ready.js";
 
 const SITES = {
-  "miraclesun.icu": "miraclesun",
-  "www.miraclesun.icu": "miraclesun",
+  "miraclesun.icu": "main",
+  "www.miraclesun.icu": "main",
   "theiamproject.miraclesun.icu": "theiamproject",
   "theiamproject.net": "theiamproject",
   "www.theiamproject.net": "theiamproject",
