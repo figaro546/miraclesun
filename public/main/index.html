@@ -1,24 +1,27 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miracle Sun</title>
-  <link rel="stylesheet" href="/styles.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Miracle Sun — generational recovery and cycle-breaking.">
+  <title>Miracle Sun</title><link rel="stylesheet" href="/main/styles.css">
 </head>
 <body>
-  <header>
-    <h1>Miracle Sun</h1>
-    <p>Welcome to miraclesun.icu</p>
-    <nav><a href="/">Home</a><a href="/theiamproject/">The IAM Project</a><a href="/admin/">Admin</a></nav>
+  <div class="sunmark" aria-hidden="true"></div>
+  <header class="site-header"><a class="brand" href="/"><img src="/main/assets/miracle-sun-icon.png" alt=""><span>Miracle Sun</span></a>
+    <nav aria-label="Primary"><a href="#lantern">The Lantern</a><a href="#navegante">Navegante</a><a href="#sovereign">The Sovereign</a><a href="#contact">Contact</a><a class="project-link" href="https://theiamproject.net/">The I AM Project ↗</a></nav>
   </header>
   <main>
-    <section id="live-stream"><h2>Live Stream</h2><p>No active stream. Check back soon!</p></section>
-    <section id="updates"><h2>Latest Updates</h2><p>Edit by updating this file and pushing to GitHub.</p></section>
-    <section id="contact"><h2>Get in Touch</h2><form id="contact-form"><input type="text" name="firstName" placeholder="First Name" required><br><br><input type="text" name="lastName" placeholder="Last Name" required><br><br><input type="email" name="email" placeholder="Email" required><br><br><input type="tel" name="phone" placeholder="Phone (optional)"><br><br><textarea name="message" placeholder="Your message" rows="4"></textarea><br><br><button type="submit">Submit</button></form><div id="form-response"></div></section>
-    <section id="iam-project-link"><h2>The IAM Project</h2><p>A derivative of Miracle Sun.</p><a href="https://theiamproject.miraclesun.icu">Visit The IAM Project</a></section>
+    <section class="hero"><p class="eyebrow">Generational recovery</p><h1>You already know what’s true.<br><em>The work is remembering how to trust it.</em></h1><p class="intro">A quiet place to return to yourself, name what was inherited, and choose what continues.</p><a class="button" href="#contact">Begin a conversation</a></section>
+    <section class="pathways" aria-labelledby="pathways-title"><p class="eyebrow" id="pathways-title">Where to go next</p>
+      <article id="lantern"><span>01</span><h2>The Lantern</h2><p>Personal work, one to one.</p><a href="#contact">Ask about a session →</a></article>
+      <article id="navegante"><span>02</span><h2>Navegante</h2><p>Document literacy and rights education.</p><a href="#contact">Ask a question →</a></article>
+      <article id="sovereign"><span>03</span><h2>The Sovereign</h2><p>The same shape, for the workplace.</p><a href="#contact">Explore workplace support →</a></article>
+    </section>
+    <section id="contact" class="contact"><div><p class="eyebrow">Contact</p><h2>Start where you are.</h2><p>Tell us what brought you here. We’ll respond with care and clarity.</p><p class="disclaimer">Miracle Sun LLC provides educational and administrative support only. It is not a law firm and does not provide legal advice or representation.</p></div>
+      <form data-lead-form data-source="miracle-sun" data-action="contact-request"><label>First name<input required name="firstName" autocomplete="given-name"></label><label>Last name<input required name="lastName" autocomplete="family-name"></label><label>Email<input required type="email" name="email" autocomplete="email"></label><label>Phone <small>(optional)</small><input type="tel" name="phone" autocomplete="tel"></label><label class="full">What would you like support with?<textarea name="message" rows="5"></textarea></label><button type="submit">Send inquiry</button><p class="form-status" aria-live="polite"></p></form>
+    </section>
+    <section class="newsletter"><div><p class="eyebrow">Stay in the light</p><h2>Occasional notes. No noise.</h2></div><form data-lead-form data-source="miracle-sun" data-action="newsletter-signup"><label>Email<input required type="email" name="email" autocomplete="email"></label><input type="hidden" name="firstName" value="Newsletter"><input type="hidden" name="lastName" value="Subscriber"><button type="submit">Request updates</button><p class="form-status" aria-live="polite"></p></form></section>
   </main>
-  <footer><p>2026 Miracle Sun. <a href="/admin">Admin</a></p></footer>
-  <script>fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"page_view",path:window.location.pathname,referrer:document.referrer})}).catch(()=>{});document.addEventListener("click",e=>{const l=e.target.closest("a");if(l&&l.href)fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"click",path:l.href,metadata:{text:l.textContent}})}).catch(()=>{})});document.getElementById("contact-form").addEventListener("submit",async e=>{e.preventDefault();const f=e.target;const d=Object.fromEntries(new FormData(f));const r=document.getElementById("form-response");r.innerHTML="<p>Sending...</p>";try{const res=await fetch("/api/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});const result=await res.json();if(result.success){r.innerHTML="<p style=color:green>Thank you!</p>";f.reset()}else{r.innerHTML="<p style=color:red>Something went wrong.</p>"}}catch(err){r.innerHTML="<p style=color:red>Something went wrong.</p>"}});</script>
-</body>
-</html>
+  <footer><span>© 2026 Miracle Sun LLC</span><a href="https://theiamproject.net/">The I AM Project ↗</a><a href="mailto:hello@miraclesun.icu">hello@miraclesun.icu</a></footer>
+  <script src="/lead-form.js" defer></script>
+</body></html>
