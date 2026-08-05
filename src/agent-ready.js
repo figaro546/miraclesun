@@ -39,7 +39,7 @@ const SITEMAP_XML = `<?xml version="1.0" encoding="UTF-8"?>
 </urlset>
 `;
 
-const API_CATALOG = JSON.stringify({ linkset: [{ anchor: `${BASE_URL}/api`, service-desc: [{ href: `${BASE_URL}/api/openapi.json` }], status: [{ href: `${BASE_URL}/api/health` }] }] }, null, 2);
+const API_CATALOG = JSON.stringify({ linkset: [{ anchor: `${BASE_URL}/api`, "service-desc": [{ href: `${BASE_URL}/api/openapi.json` }], status: [{ href: `${BASE_URL}/api/health` }] }] }, null, 2);
 const OAUTH_AUTH_SERVER = JSON.stringify({ issuer: BASE_URL, authorization_endpoint: `${BASE_URL}/oauth/authorize`, token_endpoint: `${BASE_URL}/oauth/token`, jwks_uri: `${BASE_URL}/.well-known/jwks.json`, registration_endpoint: `${BASE_URL}/oauth/register`, grant_types_supported: ["authorization_code", "refresh_token", "client_credentials"], scopes_supported: ["read", "write", "admin"] }, null, 2);
 const OAUTH_PROTECTED_RESOURCE = JSON.stringify({ resource: BASE_URL, authorization_servers: [BASE_URL], scopes_supported: ["read", "write", "admin"] }, null, 2);
 const OPENID_CONFIG = JSON.stringify({ issuer: BASE_URL, authorization_endpoint: `${BASE_URL}/oauth/authorize`, token_endpoint: `${BASE_URL}/oauth/token`, userinfo_endpoint: `${BASE_URL}/oauth/userinfo`, jwks_uri: `${BASE_URL}/.well-known/jwks.json`, grant_types_supported: ["authorization_code", "refresh_token"], response_types_supported: ["code"], subject_types_supported: ["public"], id_token_signing_alg_values_supported: ["RS256"], scopes_supported: ["openid", "read", "write", "admin"] }, null, 2);
