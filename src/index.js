@@ -117,4 +117,52 @@ export default {
     }
 
     if (path === "/api/admin/stats" && method === "GET") {
-      if ((request.headers.get("Authorization") || "") !== `Bearer ${env.ADMIN_PASSWORD}`) ret
+      if ((request.headers.get("Authorization") || "") !== `Bearer ${env.ADMIN_PASSWORD}`) return jsonResponse({ error: "Unauthorized" }, 401);
+      const [pv, fs, cl] = await Promise.all([
+        env.DB.prepare("SELECT COUNT(*) as c FROM events WHERE type='page_view'").first(),
+        env.DB.prepare("SELECT COUNT(*) as c FROM events WHERE type='form_submission'").first(),
+        env.DB.prepare("SELECT COUNT(*) as c FROM events WHERE type='click'").first(),
+      ]);
+      const top = await env.DB.prepare("SELECT path, COUNT(*) as c FROM events WHERE type='page_view' GROUP BY path ORDER BY c DESC LIMIT 10").all();
+      return jsonResponse({ pageViews: pv?.c || 0, formSubmissions: fs?.c || 0, clicks: cl?.c || 0, topPages: top.results });
+    }
+
+    if (path === "/api/admin/events" && method === "GET") {
+      if ((request.headers.get("Authorization") || "") !== `Bearer ${env.ADMIN_PASSWORD}`) return jsonResponse({ error: "Unauthorized" }, 401);
+      const limit = Math.min(parseInt(url.searchParams.get("limit") || "100"), 500);
+      const offset = parseInt(url.searchParams.get("offset") || "0");
+      const results = await env.DB.prepare("SELECT * FROM events ORDER BY created_at DESC LIMIT ? OFFSET ?").bind(limit, offset).all();
+      return jsonResponse({ events: results.results });
+    }
+
+    const siteFolder = SITES[host];
+    if (siteFolder === "theiamproject") {
+      const agentResponse = await handleAgentReady(request, env, path, accept, host);
+      if (agentResponse) return agentResponse;
+    }
+
+    if (path === "/admin" || path === "/admin/") {
+      return env.ASSETS.fetch(new Request(new URL("/admin/index.html", request.url), request));
+    }
+
+    if (method === "GET" && !path.startsWith("/api/") && !path.match(/\.(css|js|png|jpg|jpeg|gif|svg|ico|woff|woff2|ttf|map)$/)) {
+      ctx.waitUntil(logEvent(env, { type: "page_view", host, path, referrer: request.headers.get("Referer") || "", userAgent: request.headers.get("User-Agent") || "", ip: request.headers.get("CF-Connecting-IP") || "" }));
+    }
+
+    if (siteFolder) {
+      const assetUrl = new URL(request.url);
+      assetUrl.pathname = path === "/" ? `/${siteFolder}/index.html` : `/${siteFolder}${path}`;
+      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      if (siteFolder === "theiamproject" && path === "/") {
+        const h = new Headers(response.headers);
+        h.set("Link", AGENT_LINK_HEADERS);
+        h.set("Vary", "Accept");
+        return new Response(response.body, { status: response.status, headers: h });
+      }
+      return response;
+    }
+
+    return new Response("Site not found. Add this hostname to SITES in src/index.js", { status: 404, headers: { "Content-Type": "text/plain" } });
+  },
+};
+
