@@ -4,31 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Miracle Sun</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-  <header><h1>☀️ Miracle Sun</h1><p>Welcome to miraclesun.icu</p></header>
+  <header>
+    <h1>Miracle Sun</h1>
+    <p>Welcome to miraclesun.icu</p>
+    <nav><a href="/">Home</a><a href="/theiamproject/">The IAM Project</a><a href="/admin/">Admin</a></nav>
+  </header>
   <main>
     <section id="live-stream"><h2>Live Stream</h2><p>No active stream. Check back soon!</p></section>
-    <section id="updates"><h2>Latest Updates</h2><p>Edit by updating public/main/index.html and pushing to GitHub.</p></section>
-    <section id="contact">
-      <h2>Get in Touch</h2>
-      <form id="contact-form">
-        <input type="text" name="firstName" placeholder="First Name" required><br><br>
-        <input type="text" name="lastName" placeholder="Last Name" required><br><br>
-        <input type="email" name="email" placeholder="Email" required><br><br>
-        <input type="tel" name="phone" placeholder="Phone (optional)"><br><br>
-        <textarea name="message" placeholder="Your message" rows="4"></textarea><br><br>
-        <button type="submit">Submit</button>
-      </form>
-      <div id="form-response"></div>
-    </section>
-    <section id="iam-project-link"><h2>The IAM Project</h2><p>A derivative of Miracle Sun.</p><a href="https://theiamproject.miraclesun.icu">Visit The IAM Project →</a></section>
+    <section id="updates"><h2>Latest Updates</h2><p>Edit by updating this file and pushing to GitHub.</p></section>
+    <section id="contact"><h2>Get in Touch</h2><form id="contact-form"><input type="text" name="firstName" placeholder="First Name" required><br><br><input type="text" name="lastName" placeholder="Last Name" required><br><br><input type="email" name="email" placeholder="Email" required><br><br><input type="tel" name="phone" placeholder="Phone (optional)"><br><br><textarea name="message" placeholder="Your message" rows="4"></textarea><br><br><button type="submit">Submit</button></form><div id="form-response"></div></section>
+    <section id="iam-project-link"><h2>The IAM Project</h2><p>A derivative of Miracle Sun.</p><a href="https://theiamproject.miraclesun.icu">Visit The IAM Project</a></section>
   </main>
-  <footer><p>&copy; 2026 Miracle Sun. <a href="/admin">Admin</a></p></footer>
-  <script>
-    fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'page_view',path:window.location.pathname,referrer:document.referrer})}).catch(()=>{});
-    document.addEventListener('click',e=>{const l=e.target.closest('a');if(l&&l.href)fetch('/api/track',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({type:'click',path:l.href,metadata:{text:l.textContent}})}).catch(()=>{})});
-    document.getElementById('contact-form').addEventListener('submit',async e=>{e.preventDefault();const f=e.target;const d=Object.fromEntries(new FormData(f));const r=document.getElementById('form-response');r.innerHTML='<p>Sending...</p>';try{const res=await fetch('/api/submit',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(d)});const result=await res.json();if(result.success){r.innerHTML='<p style="color:green">✓ Thank you!</p>';f.reset()}else{r.innerHTML='<p style="color:red">Something went wrong.</p>'}}catch(err){r.innerHTML='<p style="color:red">Something went wrong.</p>'}});
-  </script>
+  <footer><p>2026 Miracle Sun. <a href="/admin">Admin</a></p></footer>
+  <script>fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"page_view",path:window.location.pathname,referrer:document.referrer})}).catch(()=>{});document.addEventListener("click",e=>{const l=e.target.closest("a");if(l&&l.href)fetch("/api/track",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({type:"click",path:l.href,metadata:{text:l.textContent}})}).catch(()=>{})});document.getElementById("contact-form").addEventListener("submit",async e=>{e.preventDefault();const f=e.target;const d=Object.fromEntries(new FormData(f));const r=document.getElementById("form-response");r.innerHTML="<p>Sending...</p>";try{const res=await fetch("/api/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});const result=await res.json();if(result.success){r.innerHTML="<p style=color:green>Thank you!</p>";f.reset()}else{r.innerHTML="<p style=color:red>Something went wrong.</p>"}}catch(err){r.innerHTML="<p style=color:red>Something went wrong.</p>"}});</script>
 </body>
 </html>
