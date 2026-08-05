@@ -150,13 +150,31 @@ export default {
 
     if (siteFolder) {
       const assetUrl = new URL(request.url);
-assetUrl.pathname = `/${siteFolder}${path}`;      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      assetUrl.pathname = path === "/" ? `/${siteFolder}/index.html` : `/${siteFolder}${path}`;
+      
+      let response = await env.ASSETS.fetch(new Request(assetUrl, request));
+
+      if (response.status === 308 || response.status === 301) {
+        assetUrl.pathname = `/${siteFolder}/index.html`;
+        response = await env.ASSETS.fetch(new Request(assetUrl, request));
+      }
+
+      if (response.status === 404 && path !== "/") {
+        const rootUrl = new URL(request.url);
+        rootUrl.pathname = path;
+        const rootResponse = await env.ASSETS.fetch(new Request(rootUrl, request));
+        if (rootResponse.ok) {
+          response = rootResponse;
+        }
+      }
+
       if (siteFolder === "theiamproject" && path === "/") {
         const h = new Headers(response.headers);
         h.set("Link", AGENT_LINK_HEADERS);
         h.set("Vary", "Accept");
         return new Response(response.body, { status: response.status, headers: h });
       }
+      
       return response;
     }
 
