@@ -150,8 +150,7 @@ export default {
 
     if (siteFolder) {
       const assetUrl = new URL(request.url);
-      assetUrl.pathname = path === "/" ? `/${siteFolder}/index.html` : `/${siteFolder}${path}`;
-      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
+assetUrl.pathname = `/${siteFolder}${path}`;      const response = await env.ASSETS.fetch(new Request(assetUrl, request));
       if (siteFolder === "theiamproject" && path === "/") {
         const h = new Headers(response.headers);
         h.set("Link", AGENT_LINK_HEADERS);
