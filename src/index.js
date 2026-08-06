@@ -68,8 +68,13 @@ async function sendToCRM(env, data) {
         }
       }
     }
+    const errorBody = (await res.text()).slice(0, 1500);
+    console.error("GHL contact creation failed", JSON.stringify({ status: res.status, body: errorBody }));
     return { success: false, error: `CRM returned ${res.status}` };
-  } catch (e) { return { success: false, error: e.message }; }
+  } catch (e) {
+    console.error("GHL contact request failed", e?.message || String(e));
+    return { success: false, error: e?.message || "CRM request failed" };
+  }
 }
 
 async function addNoteToCRM(env, contactId, note) {
